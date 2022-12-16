@@ -1,5 +1,10 @@
 <script setup lang="ts">
 defineProps({
+  name: {
+    type: String,
+    required: false,
+    default: "",
+  },
   component: {
     type: String,
     required: false,
@@ -25,7 +30,12 @@ defineProps({
     :type="type"
     :value="value"
     :checked="value"
-    @input="$emit('update:value', $event)"
+    @input="
+      $emit(value, {
+        name,
+        value: $event.target.checked ?? $event.target.value,
+      })
+    "
   >
     <slot></slot>
   </component>
