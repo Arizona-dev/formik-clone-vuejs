@@ -2,9 +2,8 @@
   <slot
     :values="state.values"
     :errors="state.errors"
-    :isSubmitting="isSubmitting"
+    :submitted="submitted"
     :handleSubmit="handleSubmit"
-    @update:values="state.values[$event.name] = $event.value"
   />
 </template>
 
@@ -33,17 +32,15 @@ const state = reactive({
 
 const submitted = ref(false);
 
-const emit = defineEmits(["submit"]);
-
-const handleSubmit = (values: Object) => {
-  console.log("handleSubmit", values)
-  state.errors = props.validate(values);
+const handleSubmit = async () => {
+  submitted.value = true;
+  state.errors = props.validate(state.values);
   if (Object.keys(state.errors).length) {
+    submitted.value = false;
     return;
   }
-  submitted.value = true;
-  emit("submit", state.values, submitted);
+  await props.submit(state.values);
+  submitted.value = false;
 };
-
 
 </script>

@@ -16,26 +16,23 @@ defineProps({
     required: false,
     default: "text",
   },
-  value: {
+  modelValue: {
     type: String,
     required: false,
     default: "",
   },
 });
+
 </script>
 
 <template>
   <component
     :is="component"
     :type="type"
-    :value="value"
-    :checked="value"
-    @input="
-      $emit('update:value', {
-        name,
-        value: $event.target.checked ?? $event.target.value,
-      })
-    "
+    :value="modelValue"
+    :checked="modelValue"
+    @input="$emit('update:modelValue', type == 'checkbox' ? $event.target.checked : $event.target.value)"
+  >
   >
     <slot></slot>
   </component>
