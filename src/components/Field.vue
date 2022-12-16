@@ -31,7 +31,7 @@ defineProps({
     :value="value"
     :checked="value"
     @input="
-      $emit(value, {
+      $emit('update:value', {
         name,
         value: $event.target.checked ?? $event.target.value,
       })
